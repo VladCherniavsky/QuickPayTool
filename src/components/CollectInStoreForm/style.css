@@ -1,0 +1,17 @@
+.item {
+    list-style: none;
+    text-align: left;
+}
+
+.buttonSelectStore {
+    margin-top: 5px;
+    width: 300px;
+}
+
+.storeList {
+    width: 100%;
+}
+
+.storeList > p {
+    width: 400px;
+}

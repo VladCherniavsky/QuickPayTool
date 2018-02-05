@@ -1,0 +1,10 @@
+.creditCardsList {
+    margin-bottom: 15px;
+}
+
+.creditCard {
+    text-align: left;
+    border: 1px solid green;
+    margin-top: 5px;
+    cursor: pointer;
+}
