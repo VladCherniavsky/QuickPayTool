@@ -8,13 +8,12 @@
 ### How to run ?
 
 * **Clone the repo** 
-
-    ```
-    git clone repositiry url
+    ```bash
+    git clone https://github.com/VladCherniavsky/QuickPayTool.git
     ```
 * **Enter the folder**
-     ```bash
-     cd QuickPayStub
+     ```bash 
+     cd QuickPayTool
      ```
      
 * **Install dependencies**
@@ -23,6 +22,6 @@
      ```
      
 * **Run project**
-    ```bash
+    bash  
     npm start
     ```
