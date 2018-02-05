@@ -2,7 +2,7 @@
 
 ### Prerequirements
 
- - Install  [nodejs](https://nodejs.org/en/Install)
+ - Install  [nodejs](https://nodejs.org/en/download/)
  - Install [git](https://git-scm.com/download)
  
 ### How to run ?
