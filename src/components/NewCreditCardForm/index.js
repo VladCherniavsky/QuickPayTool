@@ -14,7 +14,9 @@ export default class NewCreditCardForm extends React.Component {
       cvv: '',
       holderName: '',
       account_type: 'credit',
-      phone: '123456789'
+      phone: '123456789',
+      first_name: '',
+      last_name: '',
     };
   }
 
@@ -30,31 +32,36 @@ export default class NewCreditCardForm extends React.Component {
   hadnleRadioChange = (event) => {
     this.setState({
       ...this.state,
-      account_type: event.target.value
+      account_type: event.target.value,
     });
-  }
+  };
 
   sumbitCard = async () => {
     const tokenData = await this._tokenize();
+    let {first_name, last_name} = this.props.deliveryAddress;
+    if (!first_name) {
+      first_name = this.state.first_name;
+    }
+    if (!last_name) {
+      last_name = this.state.last_name;
+    }
 
     const data = {
       address: {
-        ...this.props.deliveryAddress,
-        email: 'email@gmail.com',
+        first_name,
+        last_name,
         phone: this.state.phone,
       },
       type: 'cupExpress',
       number: this.state.number.split('').
           reverse().
-          filter((value, index) => index < 4)
-          .reverse()
-          .join(''),
+          filter((value, index) => index < 4).reverse().join(''),
       save_this_card_for_future_use: true,
       account_type: this.state.account_type,
       payment_method_token: tokenData.token,
     };
 
-    if(this.state.account_type === 'debit') {
+    if (this.state.account_type === 'debit') {
       data.expiration_month = this.state.expiration_month;
       data.expiration_year = this.state.expiration_year;
     }
@@ -75,7 +82,7 @@ export default class NewCreditCardForm extends React.Component {
         expiration_date: `${this.state.expiration_month}/${this.state.expiration_year}`,
         card_number: this.state.number,
         token_type: 'credit_card',
-        cvv: this.state.cvv
+        cvv: this.state.cvv,
       }),
       headers: {
         'Content-Type': 'application/json',
@@ -161,6 +168,25 @@ export default class NewCreditCardForm extends React.Component {
                      onChange={this.handleInputChange('phone')}
                      value={this.state.phone}/>
             </div>
+            {
+              this.props.deliveryType === 'STORE' &&
+              <div className="element">
+                <label>First Name: </label>
+                <input type="text"
+                       onChange={this.handleInputChange('first_name')}
+                       value={this.state.first_name}/>
+              </div>
+            }
+
+            {
+              this.props.deliveryType === 'STORE' &&
+              <div className="element">
+                <label>Last Name: </label>
+                <input type="text"
+                       onChange={this.handleInputChange('last_name')}
+                       value={this.state.last_name}/>
+              </div>
+            }
           </form>
           <button className="buttonSubmitDelivery" onClick={this.sumbitCard}>
             Submit new card

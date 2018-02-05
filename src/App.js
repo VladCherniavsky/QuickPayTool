@@ -230,7 +230,8 @@ class App extends Component {
               <CreditCard isTokenActive={this.state.isTokenActive}
                           tokenOrGuestId={this.state.tokenOrGuestId}
                           selectCreditCard={this.handleSelectCreditCard}
-                          deliveryAddress={this.state.deliveryAddress}/>
+                          deliveryAddress={this.state.deliveryAddress}
+                          deliveryType={this.state.deliveryType}/>
             </div>
 
             <div className="wrapper">
