@@ -18,9 +18,10 @@
      
 * **Install dependencies**
 ```bash
-  npm install
+   npm install
+```
      
 * **Run project**
-    bash  
-    npm start
-    ```
+```bash  
+   npm start
+```    
