@@ -43,10 +43,10 @@ class App extends Component {
       const params = {
         method: 'PUT',
         body: JSON.stringify(creditCard),
-        headers: {
+        headers: new Headers({
           'Accept': 'application/json',
           'Content-Type': 'application/json'
-        },
+        })
       };
       const response = await httpClient.fetch(isTokenActive, tokenOrGuestId,
           this.setCreditCard, params);
@@ -59,10 +59,10 @@ class App extends Component {
     const params = {
       method: 'PUT',
       body: JSON.stringify({country: 'CN'}),
-      headers: {
+      headers: new Headers({
         'Accept': 'application/json',
         'Content-Type': 'application/json'
-      },
+      })
     };
 
     const {isTokenActive, tokenOrGuestId} = this.state;
@@ -85,10 +85,10 @@ class App extends Component {
       const params = {
         method: 'PUT',
         body: JSON.stringify(homeFormState),
-        headers: {
+        headers: new Headers({
           'Accept': 'application/json',
           'Content-Type': 'application/json'
-        },
+        }),
       };
       this.setState({
         ...this.state,
@@ -111,10 +111,10 @@ class App extends Component {
       const params = {
         method: 'PUT',
         body: JSON.stringify(data),
-        headers: {
+        headers: new Headers({
           'Accept': 'application/json',
           'Content-Type': 'application/json'
-        },
+        }),
       };
       const response = await httpClient.fetch(isTokenActive, tokenOrGuestId,
           this.shippingStore, params);
@@ -146,10 +146,10 @@ class App extends Component {
         cvv: '767',
         sandbox: true,
       }),
-      headers: {
+      headers: new Headers({
         'Accept': 'application/json',
         'Content-Type': 'application/json'
-      },
+      }),
     };
     const response = await httpClient.fetchParams(isTokenActive, tokenOrGuestId,
         submitUrl, '?country=CN&language=en&action=submit', params);

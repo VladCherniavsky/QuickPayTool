@@ -26,11 +26,10 @@ export default class SmsVerification extends React.Component {
         confirmation_code: this.state.smsCode,
         callback_url: redirectUrl
       }),
-      headers: {
+      headers: new Headers({
         'Accept': 'application/json',
         'Content-Type': 'application/json'
-      },
-      mode: 'no-cors',
+      })
     };
 
     const {isTokenActive, tokenOrGuestId} = this.props;
