@@ -1,9 +1,11 @@
 import React from 'react';
+import httpClient from '../../services/index';
 import './style.css';
 
 export default class SmsVerification extends React.Component {
   constructor(props) {
     super(props);
+    this.url = 'orders/current/payment-confirm';
     this.state = {
       smsCode: '',
     };
@@ -21,15 +23,18 @@ export default class SmsVerification extends React.Component {
     const params = {
       method: 'POST',
       body: JSON.stringify({
-        sms_confirmation_code: this.state.smsCode,
+        confirmation_code: this.state.smsCode,
+        callback_url: redirectUrl
       }),
       headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
       },
       mode: 'no-cors',
     };
-    const response = await fetch(redirectUrl, params);
+
+    const {isTokenActive, tokenOrGuestId} = this.props;
+    const response = await httpClient.fetch(isTokenActive, tokenOrGuestId, this.url, params);
     const result = await response.json();
   };
 

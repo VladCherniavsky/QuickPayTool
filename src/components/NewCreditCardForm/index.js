@@ -107,7 +107,7 @@ export default class NewCreditCardForm extends React.Component {
       body: JSON.stringify(data),
       headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
       },
     };
 

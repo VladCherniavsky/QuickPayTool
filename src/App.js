@@ -45,7 +45,7 @@ class App extends Component {
         body: JSON.stringify(creditCard),
         headers: {
           'Accept': 'application/json',
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/json'
         },
       };
       const response = await httpClient.fetch(isTokenActive, tokenOrGuestId,
@@ -61,7 +61,7 @@ class App extends Component {
       body: JSON.stringify({country: 'CN'}),
       headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
       },
     };
 
@@ -87,7 +87,7 @@ class App extends Component {
         body: JSON.stringify(homeFormState),
         headers: {
           'Accept': 'application/json',
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/json'
         },
       };
       this.setState({
@@ -113,7 +113,7 @@ class App extends Component {
         body: JSON.stringify(data),
         headers: {
           'Accept': 'application/json',
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/json'
         },
       };
       const response = await httpClient.fetch(isTokenActive, tokenOrGuestId,
@@ -148,7 +148,7 @@ class App extends Component {
       }),
       headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
       },
     };
     const response = await httpClient.fetchParams(isTokenActive, tokenOrGuestId,
@@ -235,13 +235,16 @@ class App extends Component {
             </div>
 
             <div className="wrapper">
-              <button className="submitOrder" onClick={this.submitOrder}>
+              <button className="submitOrder"
+                      onClick={this.submitOrder}>
                 Submit
               </button>
             </div>
 
             <div className="wrapper">
-              <SmsVerification redirectUrl={this.state.smsRedirectUrl}/>
+              <SmsVerification redirectUrl={this.state.smsRedirectUrl}
+                               isTokenActive={this.state.isTokenActive}
+                               tokenOrGuestId={this.state.tokenOrGuestId}/>
             </div>
 
           </div>

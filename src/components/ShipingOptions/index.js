@@ -68,7 +68,7 @@ export default class ShipingOptions extends React.Component {
       body: JSON.stringify(data),
       headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
       },
     };
     const {isTokenActive, tokenOrGuestId} = this.props;
