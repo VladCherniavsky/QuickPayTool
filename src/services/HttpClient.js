@@ -32,5 +32,4 @@ class HttpClient {
   }
 }
 
-export default new HttpClient(
-    'https://preprod-api.apps.burberry.com/v1/ecom-env-proxy/qa4');
+export default new HttpClient('https://preprod-api.apps.burberry.com/v1/ecom-env-proxy/qa4');

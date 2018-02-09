@@ -62,28 +62,29 @@ export default class NewCreditCardForm extends React.Component {
     };
 
     if (this.state.account_type === 'debit') {
-      data.expiration_month = this.state.expiration_month;
-      data.expiration_year = this.state.expiration_year;
+      delete data.expiration_month;
+      delete data.expiration_year;
     }
 
     const addedCard = await this._addCard(data);
   };
 
   _tokenize = async () => {
+    const data = {
+      holder_name: this.state.holderName,
+      card_number: this.state.number,
+      token_type: 'credit_card'
+    };
+
+    if (this.state.account_type === 'debit') {
+      delete data.cvv;
+    } else {
+      data.expiration_date = `${this.state.expiration_month}/${this.state.expiration_year}`;
+      data.cvv =this.state.cvv;
+    }
     const params = {
       method: 'POST',
-      body: JSON.stringify({
-        billing_address: {
-          ...this.props.deliveryAddress,
-          email: 'email@gmail.com',
-          country: 'CNA',
-        },
-        holder_name: this.state.holderName,
-        expiration_date: `${this.state.expiration_month}/${this.state.expiration_year}`,
-        card_number: this.state.number,
-        token_type: 'credit_card',
-        cvv: this.state.cvv,
-      }),
+      body: JSON.stringify(data),
       headers: {
         'Content-Type': 'application/json',
         'api-version': '1.1.0',
@@ -144,24 +145,31 @@ export default class NewCreditCardForm extends React.Component {
                      onChange={this.handleInputChange('holderName')}
                      value={this.state.holderName}/>
             </div>
-            <div className="element">
-              <label>Expiration Month: </label>
-              <input type="text"
-                     onChange={this.handleInputChange('expiration_month')}
-                     value={this.state.expiration_month}/>
-            </div>
-            <div className="element">
-              <label>Expiration Year: </label>
-              <input type="text"
-                     onChange={this.handleInputChange('expiration_year')}
-                     value={this.state.expiration_year}/>
-            </div>
-            <div className="element">
-              <label>CVV: </label>
-              <input type="text"
-                     onChange={this.handleInputChange('cvv')}
-                     value={this.state.cvv}/>
-            </div>
+            {
+              this.state.account_type === 'credit' && <div>
+                <div className="element">
+                  <label>Expiration Month: </label>
+                  <input type="text"
+                         onChange={this.handleInputChange('expiration_month')}
+                         value={this.state.expiration_month}/>
+                </div>
+                <div className="element">
+                  <label>Expiration Year: </label>
+                  <input type="text"
+                         onChange={this.handleInputChange('expiration_year')}
+                         value={this.state.expiration_year}/>
+                </div>
+
+                <div className="element">
+                  <label>CVV: </label>
+                  <input type="text"
+                         onChange={this.handleInputChange('cvv')}
+                         value={this.state.cvv}/>
+                </div>
+              </div>
+
+            }
+
             <div className="element">
               <label>Phone: </label>
               <input type="text"

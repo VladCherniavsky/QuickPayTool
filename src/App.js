@@ -100,7 +100,7 @@ class App extends Component {
     }
     if (this.state.deliveryType === 'STORE') {
       const data = {
-        address: {...this.state.selectedStore.address, phone: '123456789'},
+        address: {...this.state.selectedStore.address},
         sap_store_id: this.state.selectedStore.sap_store_id,
         store_id: this.state.selectedStore.store_id,
       };
