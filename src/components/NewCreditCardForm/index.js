@@ -61,9 +61,13 @@ export default class NewCreditCardForm extends React.Component {
       payment_method_token: tokenData.token,
     };
 
+
     if (this.state.account_type === 'debit') {
       delete data.expiration_month;
       delete data.expiration_year;
+    } else {
+        data.expiration_month = this.state.expiration_month;
+        data.expiration_year = this.state.expiration_year
     }
 
     const addedCard = await this._addCard(data);
