@@ -17,6 +17,7 @@ export default class NewCreditCardForm extends React.Component {
       phone: '123456789',
       first_name: '',
       last_name: '',
+      save_this_card_for_future_use: 'true'
     };
   }
 
@@ -29,12 +30,17 @@ export default class NewCreditCardForm extends React.Component {
     };
   };
 
-  hadnleRadioChange = (event) => {
-    this.setState({
-      ...this.state,
-      account_type: event.target.value,
-    });
+  hadnleRadioChange = (field) => {
+    return (event) => {
+        this.setState({
+            ...this.state,
+            [field]: event.target.value
+        });
+    };
+
   };
+
+
 
   sumbitCard = async () => {
     const tokenData = await this._tokenize();
@@ -56,7 +62,7 @@ export default class NewCreditCardForm extends React.Component {
       number: this.state.number.split('').
           reverse().
           filter((value, index) => index < 4).reverse().join(''),
-      save_this_card_for_future_use: true,
+      save_this_card_for_future_use: this.state.save_this_card_for_future_use,
       account_type: this.state.account_type,
       payment_method_token: tokenData.token,
     };
@@ -128,12 +134,12 @@ export default class NewCreditCardForm extends React.Component {
             <div className="radiogroup">
               <label>Credit:</label>
               <input type="radio"
-                     onChange={this.hadnleRadioChange}
+                     onChange={this.hadnleRadioChange('account_type')}
                      value='credit'
                      checked={'credit' === this.state.account_type}/>
               <label>Debit:</label>
               <input type="radio"
-                     onChange={this.hadnleRadioChange}
+                     onChange={this.hadnleRadioChange('account_type')}
                      value='debit'
                      checked={'debit' === this.state.account_type}/>
             </div>
@@ -199,6 +205,21 @@ export default class NewCreditCardForm extends React.Component {
                        value={this.state.last_name}/>
               </div>
             }
+              <br/>
+              <div className="radiogroup">
+                  <span>Save for future use ???</span>
+                  <br/>
+                  <label>Yes:</label>
+                  <input type="radio"
+                         onChange={this.hadnleRadioChange('save_this_card_for_future_use')}
+                         value="true"
+                         checked={'true' === this.state.save_this_card_for_future_use}/>
+                  <label>No:</label>
+                  <input type="radio"
+                         onChange={this.hadnleRadioChange('save_this_card_for_future_use')}
+                         value="false"
+                         checked={'false' === this.state.save_this_card_for_future_use}/>
+              </div>
           </form>
           <button className="buttonSubmitDelivery" onClick={this.sumbitCard}>
             Submit new card
