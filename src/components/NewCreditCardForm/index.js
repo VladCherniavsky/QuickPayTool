@@ -60,7 +60,7 @@ export default class NewCreditCardForm extends React.Component {
             type: 'cupExpress',
             number: this.state.number.split('').reverse().filter((value, index) => index < 4).reverse().join(''),
             save_this_card_for_future_use: this.state.save_this_card_for_future_use,
-            account_type: this.state.account_type,
+            account_type: this.state.account_type.toUpperCase(),
             payment_method_token: tokenData.token,
         };
 
