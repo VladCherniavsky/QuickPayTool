@@ -136,21 +136,28 @@ class App extends Component {
   };
 
   submitOrder = async () => {
+    const creditCard = this.refs.creditCard;
+    const newCreditCard = creditCard && creditCard.refs.newCredirCard;
+    const data = {
+        app: 'mobile',
+        consents: [],
+        sandbox: true,
+    };
+    if(newCreditCard && newCreditCard.state.account_type === 'credit') {
+        data.cvv = newCreditCard.state.cvv
+    }
     const {isTokenActive, tokenOrGuestId} = this.state;
     const submitUrl = 'orders/current';
     const params = {
       method: 'POST',
-      body: JSON.stringify({
-        app: 'mobile',
-        consents: [],
-        cvv: '767',
-        sandbox: true,
-      }),
+      body: JSON.stringify(data),
       headers: new Headers({
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       }),
     };
+
+
     const response = await httpClient.fetchParams(isTokenActive, tokenOrGuestId,
         submitUrl, '?country=CN&language=en&action=submit', params);
 
@@ -231,7 +238,9 @@ class App extends Component {
                           tokenOrGuestId={this.state.tokenOrGuestId}
                           selectCreditCard={this.handleSelectCreditCard}
                           deliveryAddress={this.state.deliveryAddress}
-                          deliveryType={this.state.deliveryType}/>
+                          deliveryType={this.state.deliveryType}
+                          ref={'creditCard'}
+              />
             </div>
 
             <div className="wrapper">

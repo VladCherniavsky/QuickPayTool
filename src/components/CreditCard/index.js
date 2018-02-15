@@ -61,7 +61,7 @@ export default class CreditCard extends React.Component {
             <CredirCardForm deliveryAddress={this.props.deliveryAddress}
                             isTokenActive={this.state.isTokenActive}
                             tokenOrGuestId={this.state.tokenOrGuestId}
-                            deliveryType={this.props.deliveryType}/>
+                            deliveryType={this.props.deliveryType} ref={'newCredirCard'}/>
           }
         </div>
     );
