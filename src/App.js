@@ -37,6 +37,11 @@ class App extends Component {
   };
 
   handleSelectCreditCard = (creditCard) => {
+    creditCard.type = 'CHINA UNION PAY';
+    const creditCardState = this.refs.creditCard.state;
+    const {first_name, last_name} = creditCardState;
+    creditCard.address = {first_name, last_name, phone: creditCard.address.phone};
+    creditCard.payment_method_token = creditCard.id;
 
     return async (event) => {
       const {isTokenActive, tokenOrGuestId} = this.state;

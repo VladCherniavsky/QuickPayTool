@@ -10,6 +10,8 @@ export default class CreditCard extends React.Component {
       tokenOrGuestId: props.tokenOrGuestId,
       creditCards: [],
       showNewCreditCardForm: false,
+      last_name: '',
+      first_name: ''
     };
   }
 
@@ -29,6 +31,12 @@ export default class CreditCard extends React.Component {
 
     creditCards && this.setState({...this.state, creditCards});
   };
+
+  handleInputChange = (field) => {
+    return (event) => {
+      this.setState({...this.state, [field]: event.target.value})
+    }
+  }
 
   renderShowSavedCardsButton = () => {
     if (this.state.isTokenActive && this.state.tokenOrGuestId) {
@@ -50,8 +58,20 @@ export default class CreditCard extends React.Component {
 
           {this.renderShowSavedCardsButton()}
           {(this.state.isTokenActive && this.state.creditCards.length > 0)
-          && <CreditCardList selectCreditCard={this.props.selectCreditCard}
-                             creditCards={this.state.creditCards}/>}
+          && <div>
+            <div className="element">
+              <label>First Name:</label>
+              <input type="text" onChange={this.handleInputChange('first_name')}
+                     value={this.state.first_name}/>
+            </div>
+            <div className="element">
+              <label>Last Name:</label>
+              <input type="text" onChange={this.handleInputChange('last_name')}
+                     value={this.state.last_name}/>
+            </div>
+            <CreditCardList selectCreditCard={this.props.selectCreditCard}
+                            creditCards={this.state.creditCards}/>
+          </div>}
           <button onClick={this.handleShowHideNewCardForm}>
             {this.state.showNewCreditCardForm ? 'Hide form' : 'Add new card'}
           </button>
