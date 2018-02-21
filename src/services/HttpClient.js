@@ -1,14 +1,15 @@
 class HttpClient {
   constructor(baseUrl) {
     this.baseUrl = baseUrl;
-    this.params = '?country=CN&language=en';
+    this.language = 'en';
+    this.params = () => (`?country=CN&language=${this.language}`);
   }
 
   concatUrl(isToken, tokenOrGuestId, subjectUrl) {
     if (isToken) {
-      return `${this.baseUrl}/users/me/${subjectUrl}${this.params}&token=${tokenOrGuestId}`;
+      return `${this.baseUrl}/users/me/${subjectUrl}${this.params()}&token=${tokenOrGuestId}`;
     } else {
-      return `${this.baseUrl}/guests/${tokenOrGuestId}/${subjectUrl}${this.params}`;
+      return `${this.baseUrl}/guests/${tokenOrGuestId}/${subjectUrl}${this.params()}`;
     }
   };
 
@@ -30,6 +31,10 @@ class HttpClient {
         query);
     return fetch(url, params);
   }
+
+  setLanguage(newLanguage) {
+    this.language = newLanguage
+  }
 }
 
-export default new HttpClient('https://preprod-api.apps.burberry.com/v1/ecom-env-proxy/qa4');
+export default new HttpClient('https://preprod-api.apps.burberry.com/v1/ecom-env-proxy/qa3');

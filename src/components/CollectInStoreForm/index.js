@@ -1,5 +1,6 @@
 import React from 'react';
 import './style.css';
+import httpClient from '../../services/index';
 
 export default class CollectInStoreForm extends React.Component {
   constructor(props) {
@@ -16,7 +17,7 @@ export default class CollectInStoreForm extends React.Component {
 
   componentDidMount() {
     fetch(
-        'https://qa-api.apps.burberry.com/v2/stores?country=CN&language=en&limit=555').
+        `https://qa-api.apps.burberry.com/v2/stores?country=CN&language=${this.props.language}&limit=555`).
         then(response => response.json()).
         then(result => {
           this.setState({

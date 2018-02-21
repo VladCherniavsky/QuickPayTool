@@ -5,6 +5,7 @@ import CreditCard from './components/CreditCard/index';
 import SmsVerification from './components/SmsVerification/index';
 import ShipingOptions from './components/ShipingOptions/index';
 import httpClient from './services/index';
+import Language from './components/Language';
 import './App.css';
 
 class App extends Component {
@@ -17,7 +18,10 @@ class App extends Component {
     this.state = {
       isTokenActive: true,
       tokenOrGuestId: '',
+      currentLanguage: 'en',
+      languages: ['en', 'cn']
     };
+
   }
 
   handleRadioButtonChange = (prop) => {
@@ -54,7 +58,7 @@ class App extends Component {
         })
       };
       const response = await httpClient.fetch(isTokenActive, tokenOrGuestId,
-          this.setCreditCard, params);
+        this.setCreditCard, params);
       const data = await response.json();
     };
 
@@ -73,14 +77,11 @@ class App extends Component {
     const {isTokenActive, tokenOrGuestId} = this.state;
 
     return httpClient.fetchParams(isTokenActive, tokenOrGuestId,
-        this.changeCountryUrl, '?country=CN&language=en', params).
-        then(async (res) => {
-          const currentResponse = await httpClient.fetch(isTokenActive,
-              tokenOrGuestId, 'orders/current');
-          const result = currentResponse.json();
-        }).
-        then().
-        catch();
+      this.changeCountryUrl, `?country=CN&language=${this.state.currentLanguage}`, params).then(async (res) => {
+      const currentResponse = await httpClient.fetch(isTokenActive,
+        tokenOrGuestId, 'orders/current');
+      const result = currentResponse.json();
+    }).then().catch();
   };
 
   handleApplyDeliveryClick = async () => {
@@ -100,7 +101,7 @@ class App extends Component {
         deliveryAddress: homeFormState,
       });
       const response = await httpClient.fetch(isTokenActive, tokenOrGuestId,
-          this.shippingAddress, params);
+        this.shippingAddress, params);
       const result = await response.json();
     }
     if (this.state.deliveryType === 'STORE') {
@@ -122,7 +123,7 @@ class App extends Component {
         }),
       };
       const response = await httpClient.fetch(isTokenActive, tokenOrGuestId,
-          this.shippingStore, params);
+        this.shippingStore, params);
       const result = await response.json();
     }
   };
@@ -144,12 +145,12 @@ class App extends Component {
     const creditCard = this.refs.creditCard;
     const newCreditCard = creditCard && creditCard.refs.newCredirCard;
     const data = {
-        app: 'mobile',
-        consents: [],
-        sandbox: true,
+      app: 'mobile',
+      consents: [],
+      sandbox: true,
     };
-    if(newCreditCard && newCreditCard.state.account_type === 'credit') {
-        data.cvv = newCreditCard.state.cvv
+    if (newCreditCard && newCreditCard.state.account_type === 'credit') {
+      data.cvv = newCreditCard.state.cvv
     }
     const {isTokenActive, tokenOrGuestId} = this.state;
     const submitUrl = 'orders/current';
@@ -164,105 +165,113 @@ class App extends Component {
 
 
     const response = await httpClient.fetchParams(isTokenActive, tokenOrGuestId,
-        submitUrl, '?country=CN&language=en&action=submit', params);
+      submitUrl, `?country=CN&language=${this.state.currentLanguage}&action=submit`, params);
 
     const result = await response.json();
-    if(result.response) {
+    if (result.response) {
       this.setState({
-          ...this.state,
+        ...this.state,
         smsRedirectUrl: result.response.data.redirect_url
       })
     }
   };
 
+  selectLanguage = (language) => {
+    this.setState({...this.state, currentLanguage: language}, () => {
+      httpClient.setLanguage(this.state.currentLanguage)
+    });
+  };
+
   render() {
     return (
-        <div className="App">
-          <header className="App-header">
-            <h1 className="App-title">Welcome to stub page</h1>
-          </header>
+      <div className="App">
+        <header className="App-header">
+          <h1 className="App-title">Welcome to stub page</h1>
+        </header>
 
-          <div className="container">
+        <div className="container">
+          <div className="wrapper">
+            <Language languages={this.state.languages}
+                      currentLanguage={this.state.currentLanguage}
+                      selectLanguage={this.selectLanguage}/>
+          </div>
 
-            <div className="wrapper">
-              <form action="">
-                  <label>Token:</label>
-                  <input type="radio"
-                         value={true}
-                         onChange={this.handleRadioButtonChange('isTokenActive')}
-                         checked={this.state.isTokenActive}/>
-                  <label>GuestId:</label>
-                  <input type="radio"
-                         value={false}
-                         onChange={this.handleRadioButtonChange('isTokenActive')}
-                         checked={this.state.isTokenActive === false}/>
-                <div>
-                  <br/>
+          <div className="wrapper">
+            <form action="">
+              <label>Token:</label>
+              <input type="radio"
+                     value={true}
+                     onChange={this.handleRadioButtonChange('isTokenActive')}
+                     checked={this.state.isTokenActive}/>
+              <label>GuestId:</label>
+              <input type="radio"
+                     value={false}
+                     onChange={this.handleRadioButtonChange('isTokenActive')}
+                     checked={this.state.isTokenActive === false}/>
+              <div>
+                <br/>
                 <input type="text"
                        placeholder={this.state.isTokenActive ?
-                           'Token' :
-                           'GuestId'}
+                         'Token' :
+                         'GuestId'}
                        value={this.state.tokenOrGuestId}
                        onChange={this.handleInputChange}
                 />
               </div>
-
-              </form>
-
-
-
-            </div>
-
-            <div className="wrapper">
-              <button onClick={this.handleChangeCountryClick}>Change Country
-              </button>
-            </div>
-
-            <div className="wrapper">
-              <div>
-                <ShipingOptions isTokenActive={this.state.isTokenActive}
-                                tokenOrGuestId={this.state.tokenOrGuestId}
-                                selectShippingOption={this.selectShippingOption}/>
-
-                <br/>
-
-                {this.state.deliveryType === 'HOME' &&
-                <HomeDeliveryForm ref="homeForm"/>}
-                {this.state.deliveryType === 'STORE' && <CollectInStoreForm
-                    selectStoreHandler={this.selectStoreHandler}/>}
-
-                <button className="buttonSubmitDelivery"
-                        onClick={this.handleApplyDeliveryClick}>Apply shipping
-                </button>
-              </div>
-            </div>
-
-
-            <div className="wrapper">
-              <CreditCard isTokenActive={this.state.isTokenActive}
-                          tokenOrGuestId={this.state.tokenOrGuestId}
-                          selectCreditCard={this.handleSelectCreditCard}
-                          deliveryAddress={this.state.deliveryAddress}
-                          deliveryType={this.state.deliveryType}
-                          ref={'creditCard'}
-              />
-            </div>
-
-            <div className="wrapper">
-              <button className="submitOrder"
-                      onClick={this.submitOrder}>
-                Submit
-              </button>
-            </div>
-
-            <div className="wrapper">
-              <SmsVerification redirectUrl={this.state.smsRedirectUrl}
-                               isTokenActive={this.state.isTokenActive}
-                               tokenOrGuestId={this.state.tokenOrGuestId}/>
-            </div>
-
+            </form>
           </div>
+
+          <div className="wrapper">
+            <button onClick={this.handleChangeCountryClick}>Change Country
+            </button>
+          </div>
+
+          <div className="wrapper">
+            <div>
+              <ShipingOptions isTokenActive={this.state.isTokenActive}
+                              tokenOrGuestId={this.state.tokenOrGuestId}
+                              selectShippingOption={this.selectShippingOption}/>
+
+              <br/>
+
+              {this.state.deliveryType === 'HOME' &&
+              <HomeDeliveryForm ref="homeForm"/>}
+              {this.state.deliveryType === 'STORE' && <CollectInStoreForm
+                language={this.state.currentLanguage}
+                selectStoreHandler={this.selectStoreHandler}/>}
+
+              <button className="buttonSubmitDelivery"
+                      onClick={this.handleApplyDeliveryClick}>Apply shipping
+              </button>
+            </div>
+          </div>
+
+
+          <div className="wrapper">
+            <CreditCard isTokenActive={this.state.isTokenActive}
+                        tokenOrGuestId={this.state.tokenOrGuestId}
+                        selectCreditCard={this.handleSelectCreditCard}
+                        deliveryAddress={this.state.deliveryAddress}
+                        deliveryType={this.state.deliveryType}
+                        ref={'creditCard'}
+            />
+          </div>
+
+          <div className="wrapper">
+            <button className="submitOrder"
+                    onClick={this.submitOrder}>
+              Submit
+            </button>
+          </div>
+
+          <div className="wrapper">
+            <SmsVerification redirectUrl={this.state.smsRedirectUrl}
+                             isTokenActive={this.state.isTokenActive}
+                             tokenOrGuestId={this.state.tokenOrGuestId}/>
+          </div>
+
         </div>
+      </div>
     );
   }
 }

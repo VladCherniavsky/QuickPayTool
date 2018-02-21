@@ -1,6 +1,7 @@
 import React from 'react';
 import CreditCardList from '../CreditCardList/index';
 import CredirCardForm from '../NewCreditCardForm/index';
+import httpClient from '../../services/index';
 
 export default class CreditCard extends React.Component {
   constructor(props) {
@@ -24,8 +25,9 @@ export default class CreditCard extends React.Component {
   }
 
   getSavedCards = async () => {
-    const url = `https://preprod-api.apps.burberry.com/v1/ecom-env-proxy/qa4/users/me/payment-cards?country=CN&language=en&token=${this.state.tokenOrGuestId}`;
-    const response = await fetch(url);
+    const url = `payment-cards`;
+    const {isTokenActive, tokenOrGuestId} = this.state;
+    const response = await httpClient.fetch(isTokenActive, tokenOrGuestId, url);
     const result = await response.json();
     const creditCards = result.response && result.response.data;
 
