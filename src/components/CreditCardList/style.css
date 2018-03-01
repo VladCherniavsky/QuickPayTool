@@ -8,3 +8,18 @@
     margin-top: 5px;
     cursor: pointer;
 }
+
+.btn-group {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between
+}
+
+.btn-select {
+    background-color: palegreen;
+}
+
+.btn-remove {
+    background-color: red;
+    color: white
+}

@@ -61,7 +61,20 @@ class App extends Component {
         this.setCreditCard, params);
       const data = await response.json();
     };
+  };
 
+  removeCard = (creditCard) => {
+    const url = `payment-cards/${creditCard.id}`;
+    return async () => {
+      const {isTokenActive, tokenOrGuestId} = this.state;
+      const params = {
+        method: 'DELETE'
+      };
+      httpClient.fetch(isTokenActive, tokenOrGuestId, url, params).then((res) => {
+        this.refs.creditCard.getSavedCards();
+      })
+      
+    }
   };
 
   handleChangeCountryClick = () => {
@@ -251,6 +264,7 @@ class App extends Component {
             <CreditCard isTokenActive={this.state.isTokenActive}
                         tokenOrGuestId={this.state.tokenOrGuestId}
                         selectCreditCard={this.handleSelectCreditCard}
+                        removeCard={this.removeCard}
                         deliveryAddress={this.state.deliveryAddress}
                         deliveryType={this.state.deliveryType}
                         ref={'creditCard'}

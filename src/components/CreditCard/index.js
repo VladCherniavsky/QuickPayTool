@@ -72,6 +72,7 @@ export default class CreditCard extends React.Component {
                      value={this.state.last_name}/>
             </div>
             <CreditCardList selectCreditCard={this.props.selectCreditCard}
+                            removeCard={this.props.removeCard}
                             creditCards={this.state.creditCards}/>
           </div>}
           <button onClick={this.handleShowHideNewCardForm}>
