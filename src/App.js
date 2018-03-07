@@ -119,7 +119,9 @@ class App extends Component {
     }
     if (this.state.deliveryType === 'STORE') {
       const data = {
-        address: {...this.state.selectedStore.address},
+        address: {
+          ...this.state.selectedStore.address,
+          store_name: this.state.selectedStore.selectedStoreName},
         sap_store_id: this.state.selectedStore.sap_store_id,
         store_id: this.state.selectedStore.store_id,
       };
@@ -199,7 +201,8 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          <h1 className="App-title">Welcome to stub page</h1>
+          <h1 className="App-title">Дорогие дамы!</h1>
+          <h1 className="App-title">C наступающим праздником!</h1>
         </header>
 
         <div className="container">

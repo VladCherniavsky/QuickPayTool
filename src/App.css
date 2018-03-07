@@ -8,10 +8,14 @@
 }
 
 .App-header {
-  background-color: #222;
-  height: 150px;
+  background-color: pink;
+  background-image: url("./flowers.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  height: 240px;
   padding: 20px;
-  color: white;
+  color: black;
 }
 
 .App-title {
