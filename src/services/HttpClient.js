@@ -36,5 +36,6 @@ class HttpClient {
     this.language = newLanguage
   }
 }
-
-export default new HttpClient('https://preprod-api.apps.burberry.com/v1/ecom-env-proxy/qa4');
+const env = process.env.env;
+console.log('env', env)
+export default new HttpClient(`https://preprod-api.apps.burberry.com/v1/ecom-env-proxy/${env}`);
