@@ -201,8 +201,7 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          <h1 className="App-title">Дорогие дамы!</h1>
-          <h1 className="App-title">C наступающим праздником!</h1>
+          <h1 className="App-title"></h1>
         </header>
 
         <div className="container">

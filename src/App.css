@@ -9,13 +9,13 @@
 
 .App-header {
   background-color: pink;
-  background-image: url("./flowers.jpg");
+  background-color: black;
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
   height: 240px;
   padding: 20px;
-  color: black;
+  color: white;
 }
 
 .App-title {
