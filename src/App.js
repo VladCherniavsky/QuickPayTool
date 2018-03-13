@@ -198,7 +198,6 @@ class App extends Component {
   };
 
   render() {
-    console.log('procees', process.env)
     return (
       <div className="App">
         <header className="App-header">
